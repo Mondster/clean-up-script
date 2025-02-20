@@ -1,34 +1,38 @@
-Below is a complete set of steps that you can follow to start with a clean gsoc-project folder and then set up a recurring cleanup script (running every 30 minutes) to remove log files older than one day.
+Below is a complete Markdown document you can add to your GitHub repository:
 
 ---
 
-## Step 0: Perform an Initial Full Cleanup (One-Time)
+```markdown
+# Cleanup Script Setup for gsoc-project Folder
 
-Before you set up the recurring cleanup, you may want to completely clear out the folder so that you’re starting fresh. **Caution:** This command will remove everything under the gsoc-project folder. Make sure this is what you intend.
+This guide outlines the steps required to perform an initial cleanup of the `gsoc-project` folder, create a cleanup script to remove old logs, and schedule the script to run every 30 minutes using cron.
 
-1. **Open a terminal and run:**
+## Step 0: Perform an Initial Full Cleanup
+
+**Note:** This step completely clears the `gsoc-project` folder. **Use with caution.**
+
+1. **Open a terminal and run the following command:**
 
    ```bash
    sudo rm -rf /opt/syslog-ng/gsoc-project/*
    ```
 
-2. **Verify** that the folder is now empty:
+2. **Verify that the folder is empty:**
 
    ```bash
    ls -la /opt/syslog-ng/gsoc-project/
    ```
 
----
-
 ## Step 1: Create the Cleanup Script
 
-1. **Open a terminal** and create a new script file. For example, place it in `/usr/local/bin/`:
+1. **Open a terminal and create a new script file.**  
+   For example, you can store it in `/usr/local/bin/`:
 
    ```bash
    sudo nano /usr/local/bin/cleanup_gsoc_project.sh
    ```
 
-2. **Paste the following script content** into the file. This script searches for any `*.log` files under `/opt/syslog-ng/gsoc-project` that are older than one day and deletes them:
+2. **Paste the following script content into the file:**
 
    ```bash
    #!/bin/bash
@@ -57,32 +61,26 @@ Before you set up the recurring cleanup, you may want to completely clear out th
    echo "[$(date)] Cleanup completed successfully."
    ```
 
-3. **Save and exit** the editor.  
-   (In nano, press `Ctrl+O` to write out, then `Enter` to confirm, and `Ctrl+X` to exit.)
-
----
+3. **Save and exit the editor:**  
+   If using nano, press `Ctrl+O` to write out the file, then `Enter` to confirm, and `Ctrl+X` to exit.
 
 ## Step 2: Make the Script Executable
 
-Set the proper permissions so that the script can be run:
+Run the following command to set the proper permissions:
 
 ```bash
 sudo chmod +x /usr/local/bin/cleanup_gsoc_project.sh
 ```
 
----
-
 ## Step 3: Test the Script Manually
 
-Before scheduling the script, run it manually to ensure it works as expected:
+Run the script to ensure it works as expected:
 
 ```bash
 /usr/local/bin/cleanup_gsoc_project.sh
 ```
 
-Check the output in the terminal and verify that any log files older than one day are removed. You may also inspect the contents of `/opt/syslog-ng/gsoc-project` to confirm.
-
----
+Check the output in the terminal and verify that any `*.log` files older than one day are removed.
 
 ## Step 4: Schedule the Script with Cron to Run Every 30 Minutes
 
@@ -92,30 +90,28 @@ Check the output in the terminal and verify that any log files older than one da
    crontab -e
    ```
 
-2. **Add the following line** at the end of the file to schedule the script every 30 minutes. (Be sure to use the correct script path.)
+2. **Add the following line at the end of the file:**
 
    ```cron
    */30 * * * * /usr/local/bin/cleanup_gsoc_project.sh >> /var/log/cleanup_gsoc_project.log 2>&1
    ```
 
    **Explanation:**
-   - `*/30 * * * *` means the script runs every 30 minutes.
-   - The output (standard output and errors) is appended to `/var/log/cleanup_gsoc_project.log` for future reference.
+   - `*/30 * * * *` runs the script every 30 minutes.
+   - The output (both standard output and errors) is appended to `/var/log/cleanup_gsoc_project.log` for monitoring.
 
-3. **Save and exit** the crontab editor.  
-   (If using nano, press `Ctrl+O` then `Enter`, and `Ctrl+X`.)
-
----
+3. **Save and exit the crontab editor:**  
+   If using nano, press `Ctrl+O` to save, `Enter` to confirm, then `Ctrl+X` to exit.
 
 ## Step 5: Verify the Cron Job
 
-- **List your cron jobs** to confirm the new entry is present:
+- **List your cron jobs to confirm the new entry is present:**
 
   ```bash
   crontab -l
   ```
 
-- **Monitor the log file** to check that the script runs as scheduled:
+- **Monitor the log file to check that the script runs as scheduled:**
 
   ```bash
   tail -f /var/log/cleanup_gsoc_project.log
@@ -123,4 +119,15 @@ Check the output in the terminal and verify that any log files older than one da
 
 ---
 
-By following these steps, you first clear out the gsoc-project folder completely and then set up a script that runs every 30 minutes to remove any log files older than one day—ensuring that your folder only contains current logs.
+By following these steps, you have:
+- Cleared out the `gsoc-project` folder completely.
+- Created a cleanup script that removes log files older than one day.
+- Scheduled the script to run every 30 minutes using cron.
+- Verified the cron job setup.
+
+This setup ensures that your `gsoc-project` folder only contains current logs, keeping it clean and manageable.
+```
+
+---
+
+You can now copy and paste this Markdown content into your GitHub repository's README or documentation file.
