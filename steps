@@ -1,5 +1,3 @@
-Below is a complete Markdown document you can add to your GitHub repository:
-
 ---
 
 ```markdown
@@ -118,16 +116,3 @@ Check the output in the terminal and verify that any `*.log` files older than on
   ```
 
 ---
-
-By following these steps, you have:
-- Cleared out the `gsoc-project` folder completely.
-- Created a cleanup script that removes log files older than one day.
-- Scheduled the script to run every 30 minutes using cron.
-- Verified the cron job setup.
-
-This setup ensures that your `gsoc-project` folder only contains current logs, keeping it clean and manageable.
-```
-
----
-
-You can now copy and paste this Markdown content into your GitHub repository's README or documentation file.
